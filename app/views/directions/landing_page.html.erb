@@ -1,0 +1,58 @@
+<div class='container'>
+  <header>
+    <h1>
+      <i class='fa fa-location-arrow blue arrow'></i>Handicap<span class='blue'>Map</span>
+    </h1>
+    <% if notice.present? %>
+        <span class='blue alert-message'><%= notice %></span>
+    <% end %>
+  </header>
+
+  <div class='row'>
+    <%= form_tag('route', method: 'get', class: 'input-group col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1') do %>
+
+      <div class='row input'>
+        <i class='fa fa-map-marker blue pull-left'></i>
+        <%= label_tag(:start, 'Start', class: 'pull-left') %>
+        <%= text_field_tag(:start, nil, class: 'form-control') %>
+      </div>
+      <div class='row input push-down'>
+        <%= label_tag(:destination, 'Destination', class: 'pull-left') %>
+        <%= text_field_tag(:destination, nil, class: 'form-control') %>
+      </div>
+
+      <div class='row push-down'>
+        <span class='input-group-btn'>
+          <div class='btn-group toggle push-down' data-toggle='buttons'>
+            <label class='btn btn-primary active'>
+              <input type='radio' name='departure' id='now'> Leave now
+            </label>
+            <label class='btn btn-primary'>
+              <input type='radio' name='departure' id='15min'> in 15 min
+            </label>
+            <label class='btn btn-primary'>
+              <input type='radio' name='departure' id='30min'> in 30 min
+            </label>
+          </div>
+          <div class='submit-container push-down'>
+            <%= submit_tag 'Route', class: 'btn btn-default submit-button' %>
+          </div>
+        </span>
+      </div>
+    <% end %>
+  </div>
+
+  <div class='row push-down'>
+    <h3 class='blue'>Give us feedback</h3>
+    <h5>Send us an email at ouyounm@gmail.com!</h5>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function() {
+    $('h5').hide();
+        $('h3').on('click', function () {
+          $('h5').animate({width: 'toggle'});
+    });
+  });
+</script>
