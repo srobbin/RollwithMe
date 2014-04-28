@@ -1,10 +1,9 @@
 class Direction
-
   require 'open-uri'
   require 'json'
   attr_accessor :start, :destination
 
-  def directions?
+  def directions?(departure)
     url = URI.encode("http://maps.googleapis.com/maps/api/geocode/json?address=#{self.start}&sensor=false")
     url_string_data = open(url).read
     url_json_data = JSON.parse(url_string_data)
@@ -23,9 +22,18 @@ class Direction
 
     destination_coordinates = [latitude, longitude]
 
-    departure_time = Time.now.to_i
 
-    url = URI.encode("http://maps.googleapis.com/maps/api/directions/json?origin=#{start_coordinates.first},#{start_coordinates.last}&destination=#{destination_coordinates.first},#{destination_coordinates.last}&sensor=false&mode=transit&departure_time=#{departure_time}&alternatives=true")
+    if departure.to_i == 15
+      @departure_time = (Time.now + 15.minutes).to_i
+    elsif departure.to_i == 30
+      @departure_time = (Time.now + 30.minutes).to_i
+    elsif departure.to_i == 60
+      @departure_time = (Time.now + 1.hour).to_i
+    else
+      @departure_time = Time.now.to_i
+    end
+
+    url = URI.encode("http://maps.googleapis.com/maps/api/directions/json?origin=#{start_coordinates.first},#{start_coordinates.last}&destination=#{destination_coordinates.first},#{destination_coordinates.last}&sensor=false&mode=transit&departure_time=#{@departure_time}&alternatives=true")
     url_string_data = open(url).read
     url_json_data = JSON.parse(url_string_data)
 
@@ -110,25 +118,17 @@ class Direction
     return routes_info_hash
   end
 
-  def accessible?
-    accessible_stations_array = %w[Kimball, Kedzie, Francisco, Rockwell, Western, Damen, Montrose, Irving Park, Addison, Paulina, Southport, Belmont, Wellington, Diversey, Washington/Wells, Harold Washington Library-State/Van Buren, Clark/Lake, O’Hare, Rosemont, Cumberland, Harlem (O'Hare), Jefferson Park, Logan Square, Western (O’Hare), Jackson, UIC-Halsted, Illinois Medical District (Damen Entrance), Kedzie-Homan, Forest Park, Ashland/63rd, Cottage Grove, King Drive, Garfield, 51st, 47th, 43rd, Indiana, 35th-Bronzeville-IIT, Roosevelt, Clinton, Morgan, Ashland, California, Conservatory-Central Park Drive, Pulaski, Cicero, Laramie, Harlem/Lake (via Marion entrance), Midway, 35/Archer, Halsted, 54th/Cermak, Kostner, Central Park, 18th, Polk, Linden, Davis, Howard, Armitage, Sedgwick, Merchandise Mart, Loyola, Granville, Fullerton, Chicago, Grand, Lake, Cermak-Chinatown, Sox-35th, 63rd, 69th, 79th, , 87th, 95th/Dan Ryan, Oakton-Skokie, Dempster-Skokie]
+  def accessible?(departure_time)
+    accessible_stations_array = %w[Kimball, Kedzie, Francisco, Rockwell, Western, Damen, Montrose, Irving Park, Addison, Paulina, Southport, Belmont, Wellington, Diversey, Fullerton, Armitage, Sedgwick, Chicago, Merchandise Mart, Washington/Wells, Harold Washington Library-State/Van Buren, Clark/Lake, O’Hare, Rosemont, Cumberland, Harlem (O'Hare), Jefferson Park, Logan Square, Western (O’Hare), Clark/Lake, Jackson, UIC-Halsted, Illinois Medical District (Damen Entrance), Kedzie-Homan, Forest Park, Ashland/63rd, Cottage Grove, King Drive, Garfield, 51st, 47th, 43rd, Indiana, 35th-Bronzeville-IIT, Roosevelt, Clinton, Morgan, Ashland, California, Conservatory-Central Park Drive, Pulaski, Cicero, Laramie, Harlem/Lake (via Marion entrance), Midway, Pulaski, Kedzie, Western, 35/Archer, Ashland, Halsted, Roosevelt, Harold Washington Library-State/Van Buren, Washington/Wells, Clark/Lake, 54th/Cermak, Cicero, Kostner, Pulaski, Central Park, Kedzie, California, Western, Damen, 18th, Polk, Ashland, Morgan, Clinton, Clark/Lake, Harold Washington Library-State/Van Buren, Washington/Wells, Belmont, Wellington, Diversey, Fullerton, Armitage, Sedgwick, Chicago, Merchandise Mart, Clark/Lake, Harold Washington Library-State/Van Buren, and Washington/Wells, Howard, Loyola, Granville, Addison, Belmont, Fullerton, Chicago, Lake, Jackson, Roosevelt, Cermak-Chinatown, Sox-35th, 47th, Garfield, 63rd, 69th, 79th, 87th, 95th/Dan Ryan, Howard, Oakton-Skokie, Dempster-Skokie]
 
-    routes = self.directions?
-    counter = 0
-    routes.each do |route|
-        if route['vehicle_type'] = 'SUBWAY'
-          if !(accessible_stations_array.include?(route['arrival_stop_name']) && accessible_array.include?(route['arrival_stop_name']))
-            routes.pop(counter)
-          end
+
+
+    routes = self.directions?(departure_time)
+      routes.each_with_index do |route, index|
+        if (route['vehicle_type'] == 'SUBWAY')
+          routes.delete(route) unless(accessible_stations_array.include?(route['arrival_stop_name']))
         end
-        counter += 1
-    end
-    return routes
+      end
+    return routes.uniq
   end
 end
-
-# direction = Direction.new
-# direction.start = 'Union Station, South Canal Street, Chicago, IL' #41.8455265,-87.63843159999999
-# direction.start = '21674 Savanna Lane, Kildeer, IL' # 42.183286,-88.05705499999999
-# direction.destination = 'Merchandise Mart, Chicago, IL' # 41.8885694,-87.63552779999999
-# Time                                                    # 1385133624

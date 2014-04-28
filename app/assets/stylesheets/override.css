@@ -184,6 +184,10 @@ header {
   color: rgb(102, 217, 239);
 }
 
+.red {
+  color: rgb(195, 34, 34);
+}
+
 .alert-message {
   font-size: 20px !important;
 }
