@@ -6,11 +6,11 @@
       <%= link_to "<i class=\'fa fa-pencil-square-o blue edit\'></i>".html_safe, root_url %><span class='text-muted'>from </span><%= @direction.start.split(' ').map {|w| w.capitalize }.join(' ') %> <span class='text-muted'>to</span> <%= @direction.destination.split(' ').map {|w| w.capitalize }.join(' ') %>
     </h2>
   </header>
-  <% if @routes.count == 1 %>
+  <%# if @routes.count == 1 %>
     <% @style = 'none' %>
-  <% else %>
-    <% @style = 'go-away' %>
-  <% end %>
+  <%# else %>
+    <%# @style = 'go-away' %>
+  <%# end %>
   <% routes_option_counter = 1 %>
 
   <% if @routes.count == 0 %>
