@@ -9,8 +9,12 @@ class DirectionsController < ApplicationController
     @departure_time = params[:departure]
 
     if @direction.start.present? && @direction.destination.present?
-      @routes = @direction.accessible?(@departure_time)
-      render 'route'
+      begin
+        @routes = @direction.accessible?(@departure_time)
+        render 'route'
+      rescue
+        redirect_to root_url, notice: "Sorry, something went wrong. Please try again in a moment."
+      end
     else
       redirect_to root_url, notice: 'Please make sure both fields are properly completed.'
     end

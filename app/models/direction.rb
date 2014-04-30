@@ -11,6 +11,27 @@ class Direction
     latitude = url_json_data['results'].first['geometry']['location']['lat']
     longitude = url_json_data['results'].first['geometry']['location']['lng']
 
+    # latitude = nil
+    # longitude = nil
+
+    # if url_json_data['results'].present?
+    #   first_result = url_string_data['results'].first
+
+    #   if first_result.present?
+    #     geometry = first_result['geometry']
+
+    #     if geometry.present?
+    #       location = geometry['location']
+
+    #       if location.present?
+    #         latitude = location['lat']
+    #         longitude = location['lng']
+    #       end
+    #     end
+    #   end
+    # end
+
+
     start_coordinates = [latitude, longitude]
 
     url = URI.encode("http://maps.googleapis.com/maps/api/geocode/json?address=#{self.destination}&sensor=false")
