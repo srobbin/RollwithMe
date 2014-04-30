@@ -200,7 +200,7 @@ label {
 
 .input-group {
   font-size: 50px;
-  text-align: left;
+  text-align: center;
 }
 
 .form-control, .submit-button {
@@ -265,7 +265,7 @@ label {
 }
 
 .submit-container {
-  float: right;
+  float: none;
 }
 
 .submit-button {

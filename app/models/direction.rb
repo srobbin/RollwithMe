@@ -124,11 +124,14 @@ class Direction
 
 
     routes = self.directions?(departure_time)
+
+
       routes.each_with_index do |route, index|
-        if (route['vehicle_type'] == 'SUBWAY')
-           unless(accessible_stations_array.include?(route['arrival_stop_name']))
+        subway_routes = route['route'].select {|r| r ["vehicle_type"] == "SUBWAY"}
+        if subway_routes.any?
+          unless(accessible_stations_array.include?(route['arrival_stop_name']))
             routes.delete(route)
-          end
+           end
         end
       end
     return routes.uniq
