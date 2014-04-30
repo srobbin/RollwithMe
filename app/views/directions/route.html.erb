@@ -1,11 +1,12 @@
+
 <div class='container'>
 
-  <header class='logo'>
-    <h1>Accessible <span class='blue'>routes</span></h1>
+  <div class='logo'>
+    <h1 class='blue'>Accessible routes</h1>
     <h2 class='route-desc'>
       <%= link_to "<i class=\'fa fa-pencil-square-o blue edit\'></i>".html_safe, root_url %><span class='text-muted'>from </span><%= @direction.start.split(' ').map {|w| w.capitalize }.join(' ') %> <span class='text-muted'>to</span> <%= @direction.destination.split(' ').map {|w| w.capitalize }.join(' ') %>
     </h2>
-  </header>
+  </div>
   <%# if @routes.count == 1 %>
     <% @style = 'none' %>
   <%# else %>
@@ -19,14 +20,14 @@
   <% @routes.each do |route| %>
     <div class='row'>
       <h2 class='col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1'>
-        <div class='route-duration pull-right' style='font-size: 12px'><%= route['duration'] %></div>
+        <div class='route-duration pull-right' style='font-size: 18px;'><%= route['duration'] %></div>
         <i class='fa fa-wheelchair blue'></i>
-        Route <%= routes_option_counter %>
+        <span class="route-name">Route <%= routes_option_counter %></span>
       </h2>
 
-      <article class='col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1'>
-        <ul>
-          <li class='toggle <%= @style %> route-directions click'><span class='blue'>Directions</span></li>
+      <div class='article col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1'>
+<!--         <ul>
+          <li class='toggle <%= @style %> route-directions click'><span class='blue'>Directions</span></li> -->
           <ul class='directions'>
             <% route['route'].each do |step| %>
               <% if step == route['route'].first %>
@@ -37,11 +38,11 @@
                     <%= step['distance'] %> - <%= step['instruction'] %>
                   <% elsif step['travel_mode'] == 'TRANSIT' %>
                     <% if step['vehicle_type'] == 'BUS' %>
-                      <%= step['distance'] %> - Take the <span style='background-color: blue !important; border: 1px solid red; padding: 0 5px; border-radius: 10px;'><%= step['departure_time'] %> #<%= step['vehicle_short_name'] %> Bus</span> to <%= step['arrival_stop_name'] %>
+                      <%= step['distance'] %> - Take the <span style='display: inline-block; color: #fff; background-color: #000080 !important; padding: 0 8px; border-radius: 5px;'><%= step['departure_time'] %> #<%= step['vehicle_short_name'] %> Bus</span> to <%= step['arrival_stop_name'] %>
                     <% elsif step['vehicle_type'] == 'SUBWAY' %>
-                      <%= step['distance'] %> - Take the <span style='background-color: <%= step['train_line_color'] %>; padding: 0 5px; border-radius: 10px;'><%= step['departure_time'] %> <%= step['train_line'] %></span> train to <%= step['arrival_stop_name'] %>
+                      <%= step['distance'] %> - Take the <span style='display: inline-block; color: #fff; background-color: <%= step['train_line_color'] %>; padding: 0 8px; border-radius: 5px;'><%= step['departure_time'] %> <%= step['train_line'] %></span> train to <%= step['arrival_stop_name'] %>
                     <% elsif step['vehicle_type'] == 'HEAVY_RAIL' %>
-                      <%= step['distance'] %> - Take the <span style='background-color: #666; padding: 0 5px; border-radius: 10px;'><%= step['departure_time'] %> <%= step['train_line'] %></span> Metra to <%= step['arrival_stop_name'] %>
+                      <%= step['distance'] %> - Take the <span style='display: inline-block; color: #fff; background-color: #666; padding: 0 8px; border-radius: 5px;'><%= step['departure_time'] %> <%= step['train_line'] %></span> Metra to <%= step['arrival_stop_name'] %>
                     <% end %>
                   <% end %>
                 </li>
@@ -53,11 +54,11 @@
                     <%= step['distance'] %> - <%= step['instruction'] %>
                   <% elsif step['travel_mode'] == 'TRANSIT' %>
                     <% if step['vehicle_type'] == 'BUS' %>
-                      <%= step['distance'] %> - Take the <span style='background-color: blue !important; border: 1px solid red; padding: 0 5px; border-radius: 10px;'><%= step['departure_time'] %> #<%= step['vehicle_short_name'] %> Bus</span> to <%= step['arrival_stop_name'] %>
+                      <%= step['distance'] %> - Take the <span style='display: inline-block; color: #fff; background-color: #000080 !important; padding: 0 8px; border-radius: 5px;'><%= step['departure_time'] %> #<%= step['vehicle_short_name'] %> Bus</span> to <%= step['arrival_stop_name'] %>
                     <% elsif step['vehicle_type'] == 'SUBWAY' %>
-                      <%= step['distance'] %> - Take the <span style='background-color: <%= step['train_line_color'] %>; padding: 0 5px; border-radius: 10px;'><%= step['departure_time'] %> <%= step['train_line'] %></span> train to <%= step['arrival_stop_name'] %>
+                      <%= step['distance'] %> - Take the <span style='display: inline-block; color: #fff; background-color: <%= step['train_line_color'] %>; padding: 0 8px; border-radius: 5px;'><%= step['departure_time'] %> <%= step['train_line'] %></span> train to <%= step['arrival_stop_name'] %>
                     <% elsif step['vehicle_type'] == 'HEAVY_RAIL' %>
-                      <%= step['distance'] %> - Take the <span style='background-color: #666; padding: 0 5px; border-radius: 10px;'><%= step['departure_time'] %> <%= step['train_line'] %></span> Metra to <%= step['arrival_stop_name'] %>
+                      <%= step['distance'] %> - Take the <span style='display: inline-block; color: #fff; background-color: #666; padding: 0 8px; border-radius: 5px;'><%= step['departure_time'] %> <%= step['train_line'] %></span> Metra to <%= step['arrival_stop_name'] %>
                     <% end %>
                   <% end %>
                 </li>
@@ -69,19 +70,19 @@
                     <%= step['distance'] %> - <%= step['instruction'] %>
                   <% elsif step['travel_mode'] == 'TRANSIT' %>
                     <% if step['vehicle_type'] == 'BUS' %>
-                      <%= step['distance'] %> - Take the <span style='background-color: blue !important; border: 1px solid red; padding: 0 5px; border-radius: 10px;'><%= step['departure_time'] %> #<%= step['vehicle_short_name'] %> Bus</span> to <%= step['arrival_stop_name'] %>
+                      <%= step['distance'] %> - Take the <span style='display: inline-block; color: #fff; background-color: #000080 !important; padding: 0 8px; border-radius: 5px;'><%= step['departure_time'] %> #<%= step['vehicle_short_name'] %> Bus</span> to <%= step['arrival_stop_name'] %>
                     <% elsif step['vehicle_type'] == 'SUBWAY' %>
-                      <%= step['distance'] %> - Take the <span style='background-color: <%= step['train_line_color'] %>; padding: 0 5px; border-radius: 10px;'><%= step['departure_time'] %> <%= step['train_line'] %></span> train to <%= step['arrival_stop_name'] %>
+                      <%= step['distance'] %> - Take the <span style='display: inline-block; color: #fff; background-color: <%= step['train_line_color'] %>; padding: 0 8px; border-radius: 5px;'><%= step['departure_time'] %> <%= step['train_line'] %></span> train to <%= step['arrival_stop_name'] %>
                     <% elsif step['vehicle_type'] == 'HEAVY_RAIL' %>
-                      <%= step['distance'] %> - Take the <span style='background-color: #666; padding: 0 5px; border-radius: 10px;'><%= step['departure_time'] %> <%= step['train_line'] %></span> Metra to <%= step['arrival_stop_name'] %>
+                      <%= step['distance'] %> - Take the <span style='display: inline-block; color: #fff; background-color: #666; padding: 0 8px; border-radius: 5px;'><%= step['departure_time'] %> <%= step['train_line'] %></span> Metra to <%= step['arrival_stop_name'] %>
                     <% end %>
                   <% end %>
                 </li>
               <% end %>
             <% end %>
           </ul>
-        </ul>
-      </article>
+        <!-- </ul> -->
+      </div>
     </div>
     <% routes_option_counter += 1 %>
   <% end %>
