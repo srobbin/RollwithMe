@@ -1,60 +1,72 @@
-<div class='container'>
-  <div class='header'>
-    <%= image_tag 'Roll-with-Me-logo.png', id: 'logo' %>
-    <h2>
-      Accessible transit directions in Chicago
-    </h2>
-    <% if notice.present? %>
-      <span class='red alert-message'><%= notice %></span>
-    <% end %>
-  </div>
+<html>
+  <head>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
+    <script src="assets/autocomplete.js"></script>
+    <script src="assets/geolocation.js"></script>
+  </head>
+  <body onload="initialize(), startAutoComplete()">
+    <div class='container'>
+    <div class='header'>
+      <%= image_tag 'Roll-with-Me-logo.png', id: 'logo' %>
+      <h2>
+        Accessible transit directions in Chicago
+      </h2>
+      <% if notice.present? %>
+        <span class='red alert-message'><%= notice %></span>
+      <% end %>
+    </div>
 
-  <div class='row'>
-    <%= form_tag('route', method: 'get', class: 'input-group col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1') do %>
+    <div class='row'>
+      <%= form_tag('route', method: 'get', class: 'input-group col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1') do %>
 
-      <div class='row input'>
-        <i class='fa fa-map-marker blue pull-left'></i>
-        <%= label_tag(:start, 'Start', class: 'pull-left') %>
-        <%= text_field_tag(:start, nil, class: 'form-control', autofocus: true) %>
-      </div>
-      <div class='row input push-down'>
-        <i class='fa fa-flag-checkered blue pull-left'></i>
-        <%= label_tag(:destination, 'Destination', class: 'pull-left') %>
-        <%= text_field_tag(:destination, nil, class: 'form-control') %>
-      </div>
+        <div class='row input'>
+          <i class='fa fa-map-marker blue pull-left'></i>
+          <div class="geolocation_button"><a class="find_me" href=" " onclick="geolocate(); return false;">Find me!</a></div>
+          <%= label_tag(:start, 'Start', class: 'pull-left') %>
+          <div><%= text_field_tag(:start, nil, class: 'form-control', id: 'start', autofocus: true, placeholder: "Where are you at?") %></div>
+        </div>
+        <div class='row input push-down'>
+          <i class='fa fa-flag-checkered blue pull-left'></i>
+          <%= label_tag(:destination, 'Destination', class: 'pull-left') %>
+          <%= text_field_tag(:destination, nil, id: 'destination', class: 'form-control', placeholder: 'Where do you want to go?') %>
+        </div>
 
-      <div class='row push-down'>
-        <span class='input-group-btn'>
-          <div class='btn-group toggle push-down' data-toggle='buttons'>
-            <label class='btn btn-primary active'>
-              <input type='radio' name='departure' id='now' class='hidden-mobile'>
-                <span class="hidden-mobile">Leave now</span>
-                <span class="visible-mobile" style="display: none;">Now</span>
-              </input>
-            </label>
-            <label class='btn btn-primary'>
-              <input type='radio' name='departure' id='15min' value="15"><span class="hidden-mobile">in </span>15 min</input>
-            </label>
-            <label class='btn btn-primary'>
-              <input type='radio' name='departure' id='30min' value="30"><span class="hidden-mobile">in </span>30 min</input>
-            </label>
-            <label class='btn btn-primary'>
-              <input type='radio' name='departure' id='60min' value="60"><span class="hidden-mobile">in </span>1 hour</input>
-            </label>
-          </div>
-          <div class='submit-container push-down'>
-            <%= submit_tag "Route", class: 'btn btn-default submit-button' %>
-          </div>
-        </span>
-      </div>
-    <% end %>
-  </div>
+        <div class='row push-down'>
+          <span class='input-group-btn'>
+            <div class='btn-group toggle push-down' data-toggle='buttons'>
+              <label class='btn btn-primary active'>
+                <input type='radio' name='departure' id='now' class='hidden-mobile'>
+                  <span class="hidden-mobile">Leave now</span>
+                  <span class="visible-mobile" style="display: none;">Now</span>
+                </input>
+              </label>
+              <label class='btn btn-primary'>
+                <input type='radio' name='departure' id='15min' value="15"><span class="hidden-mobile">in </span>15 min</input>
+              </label>
+              <label class='btn btn-primary'>
+                <input type='radio' name='departure' id='30min' value="30"><span class="hidden-mobile">in </span>30 min</input>
+              </label>
+              <label class='btn btn-primary'>
+                <input type='radio' name='departure' id='60min' value="60"><span class="hidden-mobile">in </span>1 hour</input>
 
-<script>
-  $(document).ready(function() {
-    $('h5').hide();
-        $('h3').on('click', function () {
-          $('h5').animate({width: 'toggle'});
+
+              </label>
+            </div>
+            <div class='submit-container push-down'>
+              <%= submit_tag "Route", class: 'btn btn-default submit-button' %>
+            </div>
+          </span>
+        </div>
+      <% end %>
+    </div>
+
+   <script>
+     $(document).ready(function() {
+       $('h5').hide();
+           $('h3').on('click', function () {
+             $('h5').animate({width: 'toggle'});
+      });
     });
-  });
-</script>
+   </script>
+  </body>
+<html>

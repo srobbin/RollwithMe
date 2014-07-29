@@ -11,25 +11,6 @@ class Direction
     latitude = url_json_data['results'].first['geometry']['location']['lat']
     longitude = url_json_data['results'].first['geometry']['location']['lng']
 
-    # latitude = nil
-    # longitude = nil
-
-    # if url_json_data['results'].present?
-    #   first_result = url_string_data['results'].first
-
-    #   if first_result.present?
-    #     geometry = first_result['geometry']
-
-    #     if geometry.present?
-    #       location = geometry['location']
-
-    #       if location.present?
-    #         latitude = location['lat']
-    #         longitude = location['lng']
-    #       end
-    #     end
-    #   end
-    # end
 
 
     start_coordinates = [latitude, longitude]
@@ -54,7 +35,7 @@ class Direction
       @departure_time = Time.now.to_i
     end
 
-    url = URI.encode("http://maps.googleapis.com/maps/api/directions/json?origin=#{start_coordinates.first},#{start_coordinates.last}&destination=#{destination_coordinates.first},#{destination_coordinates.last}&sensor=false&mode=transit&departure_time=#{@departure_time}&alternatives=true")
+    url = URI.encode("http://maps.googleapis.com/maps/api/directions/json?origin=#{start_coordinates.first},#{start_coordinates.last}&destination=#{destination_coordinates.first},#{destination_coordinates.last}&departure_time=#{@departure_time}&mode=transit&sensor=true&alternatives=true")
     url_string_data = open(url).read
     url_json_data = JSON.parse(url_string_data)
 
@@ -72,6 +53,7 @@ class Direction
           step_info['travel_mode'] = step['travel_mode']
           step_info['distance'] = step['distance']['text']
           step_info['duration'] = step['duration']['text']
+
           step_info['instruction'] = step['html_instructions']
           route_info_hash['route'] << step_info
         elsif step['travel_mode'] == 'DRIVING'
@@ -140,14 +122,30 @@ class Direction
   end
 
   def accessible?(departure_time)
-    accessible_stations_array = %w[Kimball, Kedzie, Francisco, Rockwell, Western, Damen, Montrose, Irving Park, Addison, Paulina, Southport, Belmont, Wellington, Diversey, Fullerton, Armitage, Sedgwick, Chicago, Merchandise Mart, Washington/Wells, Harold Washington Library-State/Van Buren, Clark/Lake, O’Hare, Rosemont, Cumberland, Harlem (O'Hare), Jefferson Park, Logan Square, Western (O’Hare), Clark/Lake, Jackson, UIC-Halsted, Illinois Medical District (Damen Entrance), Kedzie-Homan, Forest Park, Ashland/63rd, Cottage Grove, King Drive, Garfield, 51st, 47th, 43rd, Indiana, 35th-Bronzeville-IIT, Roosevelt, Clinton, Morgan, Ashland, California, Conservatory-Central Park Drive, Pulaski, Cicero, Laramie, Harlem/Lake (via Marion entrance), Midway, Pulaski, Kedzie, Western, 35/Archer, Ashland, Halsted, Roosevelt, Harold Washington Library-State/Van Buren, Washington/Wells, Clark/Lake, 54th/Cermak, Cicero, Kostner, Pulaski, Central Park, Kedzie, California, Western, Damen, 18th, Polk, Ashland, Morgan, Clinton, Clark/Lake, Harold Washington Library-State/Van Buren, Washington/Wells, Belmont, Wellington, Diversey, Fullerton, Armitage, Sedgwick, Chicago, Merchandise Mart, Clark/Lake, Harold Washington Library-State/Van Buren, and Washington/Wells, Howard, Loyola, Granville, Addison, Belmont, Fullerton, Chicago, Lake, Jackson, Roosevelt, Cermak-Chinatown, Sox-35th, 47th, Garfield, 63rd, 69th, 79th, 87th, 95th/Dan Ryan, Howard, Oakton-Skokie, Dempster-Skokie]
+    accessible_stations_array = %w[Kimball, Kedzie, Francisco, Rockwell, Western, Damen, Montrose,
+      Irving Park, Addison, Paulina, Southport, Belmont, Wellington, Diversey, Fullerton, Armitage,
+      Sedgwick, Chicago, Merchandise Mart, Washington/Wells, Harold Washington Library-State/Van Buren,
+      Clark/Lake, O’Hare, Rosemont, Cumberland, Harlem (O'Hare), Jefferson Park, Logan Square,
+      Western (O’Hare), Clark/Lake, Jackson, UIC-Halsted, Illinois Medical District (Damen Entrance),
+      Kedzie-Homan, Forest Park, Ashland/63rd, Halsted, Cottage Grove, King Drive, Garfield, 51st,
+      47th, 43rd, Indiana, 35th-Bronzeville-IIT, Roosevelt, Clark/Lake, Clinton, Morgan, Ashland,
+      California, Kedzie, Conservatory-Central Park Drive, Pulaski, Cicero, Laramie, Central,
+      Harlem/Lake (via Marion entrance), Midway, Pulaski, Kedzie, Western, 35/Archer, Ashland,
+      Halsted, Roosevelt; also Harold Washington Library-State/Van Buren, Washington/Wells, Clark/Lake,
+      54th/Cermak, Cicero, Kostner, Pulaski, Central Park, Kedzie, California, Western, Damen, 18th,
+      Polk, Ashland, Morgan, Clinton, Clark/Lake, Harold Washington Library-State/Van Buren,
+      Washington/Wells, Belmont, Wellington, Diversey, Fullerton, Armitage, Sedgwick, Chicago,
+      Merchandise Mart, Clark/Lake, Harold Washington Library-State/Van Buren, Washington/Wells,
+      Howard, Loyola, Granville, Addison, Belmont, Fullerton, Chicago, Lake, Jackson,
+      Roosevelt, Cermak-Chinatown, Sox-35th, 47th, Garfield, 63rd, 69th, 79th, 87th, 95th/Dan Ryan,
+      Howard, Oakton-Skokie, Dempster-Skokie]
 
 
 
     routes = self.directions?(departure_time)
 
 
-      routes.each_with_index do |route, index|
+      routes.each do |route|
         subway_routes = route['route'].select {|r| r ["vehicle_type"] == "SUBWAY"}
         if subway_routes.any?
           unless(accessible_stations_array.include?(route['arrival_stop_name']))
@@ -158,3 +156,23 @@ class Direction
     return routes.uniq
   end
 end
+
+    # latitude = nil
+    # longitude = nil
+
+    # if url_json_data['results'].present?
+    #   first_result = url_string_data['results'].first
+
+    #   if first_result.present?
+    #     geometry = first_result['geometry']
+
+    #     if geometry.present?
+    #       location = geometry['location']
+
+    #       if location.present?
+    #         latitude = location['lat']
+    #         longitude = location['lng']
+    #       end
+    #     end
+    #   end
+    # end
