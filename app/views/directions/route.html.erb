@@ -1,5 +1,4 @@
 <html>
-
 <div class='container'>
 
   <div class='logo'>
@@ -9,6 +8,7 @@
       To:</span> <%= @direction.destination.split(' ').map {|w| w.capitalize }.join(' ') %>
     </h2>
   </div>
+ <!--  -->
   <%# if @routes.count == 1 %>
     <% @style = 'none' %>
   <%# else %>
@@ -35,7 +35,10 @@
               <% if step == route['route'].first %>
                 <li class='route-first'>
                   <% if step['travel_mode'] == 'WALKING' %>
-                    <%= step['distance'] %> - <%= step['instruction'].gsub!('Walk', 'Wheel') %>
+                    <%= step['distance'] %> - <%= step['general_instruction'].gsub!('Walk', 'Wheel') %>
+                    <br />
+                    <%= step['detail'] %>
+
                   <% elsif step['travel_mode'] == 'DRIVING' %>
                     <%= step['distance'] %> - <%= step['instruction'] %>
                   <% elsif step['travel_mode'] == 'TRANSIT' %>
@@ -51,7 +54,10 @@
               <% elsif step == route['route'].last %>
                 <li class='route-last'>
                   <% if step['travel_mode'] == 'WALKING' %>
-                    <%= step['distance'] %> - <%= step['instruction'].gsub!('Walk', 'Wheel') %>
+                    <%= step['distance'] %> - <%= step['general_instruction'].gsub!('Walk', 'Wheel') %>
+                    <br>
+                      <%= step['detail'] %>
+
                   <% elsif step['travel_mode'] == 'DRIVING' %>
                     <%= step['distance'] %> - <%= step['instruction'] %>
                   <% elsif step['travel_mode'] == 'TRANSIT' %>
@@ -67,7 +73,9 @@
               <% else %>
                 <li>
                   <% if step['travel_mode'] == 'WALKING' %>
-                    <%= step['distance'] %> - <%= step['instruction'].gsub!('Walk', 'Wheel') %>
+                    <%= step['distance'] %> - <%= step['general_instruction'].gsub!('Walk', 'Wheel') %>
+                    <br>
+
                   <% elsif step['travel_mode'] == 'DRIVING' %>
                     <%= step['distance'] %> - <%= step['instruction'] %>
                   <% elsif step['travel_mode'] == 'TRANSIT' %>
@@ -89,9 +97,8 @@
     <% routes_option_counter += 1 %>
   <% end %>
   <hr>
-  <div class="feedback">How was your experience? We'd love to hear your feedback! <div>Send us an <%= mail_to "mouyoun@yahoo.com", "email" %>!</div></div>
-</div>
-
+    <div class="feedback">How was your experience? We'd love to hear your feedback! <div>Send us an <%= mail_to "mouyoun@yahoo.com", "email" %>!</div></div>
+  </div>
 <script>
 //   $(document).ready(function() {
 //     var directions = $('.go-away').siblings('ul')

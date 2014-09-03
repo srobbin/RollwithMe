@@ -9,7 +9,7 @@ class Alert
   alerts = data.xpath("//alert").each do |alert|
       %w[shortdescription].each do |description|
       if alert.text.include?('elevator')
-        puts alert.at(description).text
+         puts alert.at(description).text
         else
           alert.delete(alert)
       end

@@ -3,10 +3,6 @@ class DirectionsController < ApplicationController
   end
 
   def route
-
-    # def alert
-    #   @alerts  = Alert.all
-    # end
     @direction = Direction.new
     @direction.start = params[:start]
     @direction.destination = params[:destination]
@@ -24,5 +20,4 @@ class DirectionsController < ApplicationController
       redirect_to root_url, notice: 'Please make sure both fields are properly completed.'
     end
   end
-
 end
