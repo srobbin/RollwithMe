@@ -37,7 +37,7 @@
                   <% if step['travel_mode'] == 'WALKING' %>
                     <%= step['distance'] %> - <%= step['general_instruction'].gsub!('Walk', 'Wheel') %>
                     <br />
-                    <%= step['detail'] %>
+                    <%= step_directions(step) %>
 
                   <% elsif step['travel_mode'] == 'DRIVING' %>
                     <%= step['distance'] %> - <%= step['instruction'] %>
@@ -56,7 +56,7 @@
                   <% if step['travel_mode'] == 'WALKING' %>
                     <%= step['distance'] %> - <%= step['general_instruction'].gsub!('Walk', 'Wheel') %>
                     <br>
-                      <%= step['detail'] %>
+                      <%= step_directions(step) %>
 
                   <% elsif step['travel_mode'] == 'DRIVING' %>
                     <%= step['distance'] %> - <%= step['instruction'] %>
