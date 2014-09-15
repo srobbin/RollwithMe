@@ -42,6 +42,7 @@ def directions?(departure)
 
   # Hard Coded URL (json)
      # url = URI.encode("http://maps.googleapis.com/maps/api/directions/json?origin=Merchandise+Mart+Chicago,IL&destination=210+S+Canal+St+Chicago,IL&departure_time=134759800&mode=transit&sensor=true&alternatives=true")
+     # url = URI.encode("http://maps.googleapis.com/maps/api/directions/json?origin=Chicago+Ohare+Int+Chicago,IL&destination=1032+West+Lake+St+Chicago,IL&departure_time=134759800&mode=transit&sensor=true&alternatives=true")
   # Dynamic Directions URL (json)
      url = URI.encode("http://maps.googleapis.com/maps/api/directions/json?origin=#{start_coordinates.first},#{start_coordinates.last}&destination=#{destination_coordinates.first},#{destination_coordinates.last}&departure_time=#{@departure_time}&mode=transit&sensor=true&alternatives=true")
      url_string_data = open(url).read
@@ -68,7 +69,7 @@ def directions?(departure)
            step_info['duration'] = step['duration']['text']
            step_info['general_instruction'] = step['html_instructions']
            step_info['detail'] =  step['steps'].each do |direct|
-            direct['html_instructions'].first['html_instructions']
+            direct['html_instructions']
            end
            route_info_hash['route'] << step_info
 
@@ -150,27 +151,49 @@ def directions?(departure)
 
   # Array of all accessible CTA Stations
     def accessible?(departure_time)
-      # accessible_stations_array = %w[
-      #   Kimball, Kedzie, Francisco, Rockwell, Western, Damen, Montrose,
-      #   Irving Park, Addison, Paulina, Southport, Belmont, Wellington, Diversey, Fullerton, Armitage,
-      #   Sedgwick, Chicago, Merchandise Mart, Washington/Wells, Harold Washington Library-State/Van Buren,
-      #   Clark/Lake, O’Hare, Rosemont, Cumberland, Harlem (O'Hare), Jefferson Park, Logan Square,
-      #   Western (O’Hare), Clark/Lake, Jackson-Blue, UIC-Halsted, Illinois Medical District (Damen Entrance),
-      #   Kedzie-Homan, Forest Park, Ashland/63rd, Halsted, Cottage Grove, King Drive, Garfield, 51st,
-      #   47th, 43rd, Indiana, 35th-Bronzeville-IIT, Roosevelt, Clark/Lake, Clinton, Morgan, Ashland,
-      #   California, Kedzie, Conservatory-Central Park Drive, Pulaski, Cicero, Laramie, Central,
-      #   Harlem/Lake (via Marion entrance), Midway, Pulaski, Kedzie, Western, 35/Archer, Ashland,
-      #   Halsted, Roosevelt, Harold Washington Library-State/Van Buren, Washington/Wells, Clark/Lake,
-      #   54th/Cermak, Cicero, Kostner, Pulaski, Central Park, Kedzie, California, Western, Damen, 18th,
-      #   Polk, Ashland, Morgan, Clinton, Clark/Lake, Harold Washington Library-State/Van Buren,
-      #   Washington/Wells, Belmont, Wellington, Diversey, Fullerton, Armitage, Sedgwick, Chicago,
-      #   Merchandise Mart, Clark/Lake, Harold Washington Library-State/Van Buren, Washington/Wells,
-      #   Howard, Loyola, , Addison, Belmont, Fullerton, Chicago, Lake, Jackson-Red,
-      #   Roosevelt, Cermak-Chinatown, Sox-35th, 47th, Garfield, 63rd, 69th, 79th, 87th, 95th/Dan Ryan,
-      #   Howard, Oakton-Skokie, Dempster-Skokie
-      # ]
+      accessible_stations_array = [
 
-    accessible_stations_array = %w[Washington/Wells]
+        # CTA BROWN LINE
+        "Kimball", "Kedzie-Brown", "Francisco", "Rockwell", "Western-Brown", "Damen-Brown",
+        "Montrose", "Irving Park", "Addison-Brown", "Paulina", "Southport", "Belmont",
+        "Wellington", "Diversey", "Fullerton", "Armitage", "Sedgwick", "Chicago-Brown",
+        "Merchandise Mart", "Washington/Wells", "Harold Washington Library-State/Van Buren",
+        "Clark/Lake",
+
+        # CTA BLUE LINE
+        "O’Hare", "Rosemont", "Cumberland", "Harlem (O'Hare)", "Jefferson Park", "Logan Square",
+        "Western (O’Hare)", "Clark/Lake", "Jackson-Blue", "UIC-Halsted",
+        "Illinois Medical District (Damen Entrance)", "Kedzie-Homan", "Forest Park",
+
+        # CTA GREEN LINE
+        "Ashland/63rd", "Halsted", "Cottage Grove", "King Drive", "Garfield", "51st", "47th",
+        "43rd", "Indiana", "35th-Bronzeville-IIT", "Roosevelt", "Clark/Lake", "Clinton",
+        "Morgan-Lake", "Ashland", "California", "Kedzie-Green", "Conservatory-Central Park Drive",
+        "Pulaski", "Cicero", "Laramie", "Central","Harlem/Lake (via Marion entrance)",
+
+        # CTA ORANGE LINE
+        "Midway", "Pulaski", "Kedzie-Orange", "Western-Orange", "35/Archer", "Ashland", "Halsted", "Roosevelt", "Harold Washington Library-State/Van Buren",
+        "Harold Washington Library-State/Van Buren", "Washington/Wells", "Clark/Lake",
+
+        # CTA PINK LINE
+        "54th/Cermak", "Cicero", "Kostner", "Pulaski", "Central Park", "Kedzie-Pink", "California",
+        "Western-Pink", "Damen-Pink", "18th", "Polk", "Ashland", "Morgan-Lake", "Clinton", "Clark/Lake",
+        "Harold Washington Library-State/Van Buren", "Washington/Wells",
+
+        # CTA PURPLE LINE
+        "Belmont", "Wellington", "Diversey", "Fullerton", "Armitage", "Sedgwick", "Chicago-Purple",
+        "Merchandise Mart", "Clark/Lake", "Harold Washington Library-State/Van Buren",
+        "Washington/Wells",
+
+        # CTA RED LINE
+        "Howard", "Loyola", "Graville", "Addison-Red", "Belmont", "Fullerton", "Chicago-Red", "Grand", "Lake",
+        "Jackson-Red", "Roosevelt", "Cermak-Chinatown", "Sox-35th", "47th", "Garfield", "63rd",
+        "69th", "79th", "87th", "95th/Dan Ryan",
+
+        # CTA YELLOW LINE
+        "Howard", "Oakton-Skokie", "Dempster-Skokie"
+      ]
+
 
   # Logic to filter out any unaccessible routes
     routes = self.directions?(departure_time)
@@ -179,7 +202,7 @@ def directions?(departure)
       routes.each do |route|
         subway_routes = route['route'].select {|r| r ["vehicle_type"] == "SUBWAY"}
           results_stations_array = subway_routes.each.map  do |subway|
-          subway['arrival_stop_name']
+           subway['arrival_stop_name']
           unless(accessible_stations_array.include?(results_stations_array))
             routes.delete(route)
           end

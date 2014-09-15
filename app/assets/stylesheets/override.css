@@ -449,3 +449,12 @@ label {
 .feedback {
   font-size: 20px;
 }
+
+.close-well {
+  /*display: none;*/
+}
+
+.show-detail {
+  font-size: 12px;
+  float: right;
+}

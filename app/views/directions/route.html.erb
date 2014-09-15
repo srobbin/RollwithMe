@@ -1,8 +1,8 @@
 <html>
-<div class='container'>
-
+<div class='container'
   <div class='logo'>
     <h1 class='blue'>Accessible routes</h1>
+
     <h2 class='route-desc'>
       <%= link_to "<i class=\'fa fa-pencil-square-o blue edit\'></i>".html_safe, root_url %><span class='text-muted'>From: </span><%= @direction.start.split(' ').map {|w| w.capitalize }.join(' ') %> <span class='text-muted'><br />
       To:</span> <%= @direction.destination.split(' ').map {|w| w.capitalize }.join(' ') %>
@@ -36,6 +36,7 @@
                 <li class='route-first'>
                   <% if step['travel_mode'] == 'WALKING' %>
                     <%= step['distance'] %> - <%= step['general_instruction'].gsub!('Walk', 'Wheel') %>
+                    <a href= "#" id="show-detail"class="show-detail hide-detail">Show details</a>
                     <br />
                     <%= step_directions(step) %>
 
@@ -55,6 +56,7 @@
                 <li class='route-last'>
                   <% if step['travel_mode'] == 'WALKING' %>
                     <%= step['distance'] %> - <%= step['general_instruction'].gsub!('Walk', 'Wheel') %>
+                    <a href="#" id="show-detail"class="show-detail hide-detail">Show details</a>
                     <br>
                       <%= step_directions(step) %>
 
@@ -74,8 +76,7 @@
                 <li>
                   <% if step['travel_mode'] == 'WALKING' %>
                     <%= step['distance'] %> - <%= step['general_instruction'].gsub!('Walk', 'Wheel') %>
-                    <br>
-
+                    <a href="#" id="show-detail"class="show-detail hide-detail">Show details</a>
                   <% elsif step['travel_mode'] == 'DRIVING' %>
                     <%= step['distance'] %> - <%= step['instruction'] %>
                   <% elsif step['travel_mode'] == 'TRANSIT' %>
@@ -100,6 +101,8 @@
     <div class="feedback">How was your experience? We'd love to hear your feedback! <div>Send us an <%= mail_to "mouyoun@yahoo.com", "email" %>!</div></div>
   </div>
 <script>
+
+
 //   $(document).ready(function() {
 //     var directions = $('.go-away').siblings('ul')
 //     directions.hide();
@@ -108,5 +111,6 @@
 //       closestDirection.slideToggle('slow');
 //     });
 //   });
-// </script>
+</script>
+<script type="text/javascript" src="routes.js"></script>
 </html>

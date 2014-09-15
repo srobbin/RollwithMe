@@ -1,0 +1,11 @@
+<% if @alert %>
+  <ul>
+    <% @alert.each do |notice| %>
+      <li><%= notice %></li>
+    <% end %>
+  </ul>
+  <% else %>
+    <ul>
+      <!-- <li>All Elevators are currently working!</li> -->
+    </ul>
+<% end %>
