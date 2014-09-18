@@ -2,11 +2,14 @@
 <div class='container'
   <div class='logo'>
     <h1 class='blue'>Accessible routes</h1>
-
-    <h2 class='route-desc'>
-      <%= link_to "<i class=\'fa fa-pencil-square-o blue edit\'></i>".html_safe, root_url %><span class='text-muted'>From: </span><%= @direction.start.split(' ').map {|w| w.capitalize }.join(' ') %> <span class='text-muted'><br />
-      To:</span> <%= @direction.destination.split(' ').map {|w| w.capitalize }.join(' ') %>
+    <span class="alert_header">Please be aware of the following accessibility alerts:</span>
+    <%= render 'alerts' %>
+    <h2 class='route-desc col-lg-8 col-md-8 col-md-offset-2 col-sm-12'>
+      <span class="bold">From:</span> <%= @direction.start.split(' ').map {|w| w.capitalize }.join(' ') %> <br />
+      <br />
+      <span class="bold">To:</span> <%= @direction.destination.split(' ').map {|w| w.capitalize }.join(' ') %>
     </h2>
+
   </div>
  <!--  -->
   <%# if @routes.count == 1 %>
@@ -36,7 +39,7 @@
                 <li class='route-first'>
                   <% if step['travel_mode'] == 'WALKING' %>
                     <%= step['distance'] %> - <%= step['general_instruction'].gsub!('Walk', 'Wheel') %>
-                    <!-- <a href= "#" id="show-detail"class="show-detail hide-detail">Show details</a> -->
+                    <a href= "#" id="show-detail"class="show-detail hide-detail">Hide details</a>
                     <br />
                     <%= step_directions(step) %>
 
@@ -56,7 +59,7 @@
                 <li class='route-last'>
                   <% if step['travel_mode'] == 'WALKING' %>
                     <%= step['distance'] %> - <%= step['general_instruction'].gsub!('Walk', 'Wheel') %>
-                    <!-- <a href="#" id="show-detail"class="show-detail hide-detail">Show details</a> -->
+                    <a href="#" id="destroy-detail" class="show-detail hide-detail">Hide details</a>
                     <br>
                       <%= step_directions(step) %>
 
@@ -76,7 +79,7 @@
                 <li>
                   <% if step['travel_mode'] == 'WALKING' %>
                     <%= step['distance'] %> - <%= step['general_instruction'].gsub!('Walk', 'Wheel') %>
-                    <!-- <a href="#" id="show-detail"class="show-detail hide-detail">Show details</a> -->
+                    <a href="#" id="show-detail" class="show-detail hide-detail">Hide details</a>
                   <% elsif step['travel_mode'] == 'DRIVING' %>
                     <%= step['distance'] %> - <%= step['instruction'] %>
                   <% elsif step['travel_mode'] == 'TRANSIT' %>

@@ -1,8 +1,7 @@
 $(document).ready(function() {
-  // var n = '#nav', var no = 'nav-open';
-  var links = $('a')
-  $('#show-detail').click(function() {
-    console.log(links);
+  var detailLink = '#show-detail';
+  $(detailLink).click(function() {
+    console.log("links");
   //   if ($(n).hasClass(no) {
   //     $(n).animate ({height:0},300);
   //     setTimeout(function(){

@@ -1,7 +1,9 @@
-<% if @alert %>
+<% if @elevaltor_alerts.any? %>
   <ul>
-    <% @alert.each do |notice| %>
-      <li><%= notice %></li>
+    <% @elevator_alerts.each do |alert| %>
+      <li><%= alert.text %></li>
+      <% else %>
+      None
     <% end %>
   </ul>
 <% end %>

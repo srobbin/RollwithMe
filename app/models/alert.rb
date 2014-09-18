@@ -1,18 +1,34 @@
 class Alert
 
-  require 'open-uri'
-  require 'nokogiri'
+  def get_elevator_alerts
+    require 'open-uri'
+    require 'nokogiri'
 
-  url = "http://www.transitchicago.com/api/1.0/alerts.aspx"
-  data = Nokogiri::HTML(open(url))
-
-  alerts = data.xpath("//alert").each do |alert|
-      %w[shortdescription].each do |description|
-      if alert.text.include?('elevator')
-         puts alert.at(description).text
+    url = "http://www.transitchicago.com/api/1.0/alerts.aspx"
+    data = Nokogiri::HTML(open(url))
+    elevator_alerts = []
+      data.xpath("//alert").each do |alert|
+        %w[shortdescription].each do |description|
+        if alert.text.include?('elevator')
+         elevator_alert = alert.at(description).text.strip
+         elevator_alerts << elevator_alert
         else
-          alert.delete(alert)
+         alert.delete(alert)
+        end
       end
     end
+    return elevator_alerts
   end
 end
+
+  # Alert scrape test
+
+  # url = "http://www.transitchicago.com/api/1.0/alerts.aspx"
+  # data = Nokogiri::HTML(open(url))
+   # data.xpath("//alert").each do |alert|
+    # %w[shortdescription].each do |description|
+    # if alert.text.include?('elevator')
+     # puts alert.at(description).text.strip
+    # else
+    # alert.delete(alert)
+  # end

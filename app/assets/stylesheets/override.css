@@ -41,6 +41,15 @@ li.last:before {
   font-size: 0.8em;
 }
 
+p.alerts {
+  font-weight: 400;
+}
+
+.alert_header {
+  color: red;
+  font-weight: 400
+}
+
 div.route-duration, div.route-distance {
   position: relative;
   top: 12px;
@@ -160,7 +169,8 @@ h2 {
 }
 
 .route-desc {
-  font-size: 29px;
+  text-align: left;
+  font-size: 20px;
   text-shadow: none;
 }
 
@@ -457,4 +467,5 @@ label {
 .show-detail {
   font-size: 12px;
   float: right;
+  margin-left: 10px;
 }
