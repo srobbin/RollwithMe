@@ -39,7 +39,7 @@
                 <li class='route-first'>
                   <% if step['travel_mode'] == 'WALKING' %>
                     <%= step['distance'] %> - <%= step['general_instruction'].gsub!('Walk', 'Wheel') %>
-                    <a href= "#" id="show-detail"class="show-detail hide-detail">Hide details</a>
+                    <!-- <a href= "#" id="show-detail"class="show-detail hide-detail">Hide details</a> -->
                     <br />
                     <%= step_directions(step) %>
 
@@ -59,7 +59,7 @@
                 <li class='route-last'>
                   <% if step['travel_mode'] == 'WALKING' %>
                     <%= step['distance'] %> - <%= step['general_instruction'].gsub!('Walk', 'Wheel') %>
-                    <a href="#" id="destroy-detail" class="show-detail hide-detail">Hide details</a>
+                    <!-- <a href="#" id="destroy-detail" class="show-detail hide-detail">Hide details</a> -->
                     <br>
                       <%= step_directions(step) %>
 
@@ -79,7 +79,7 @@
                 <li>
                   <% if step['travel_mode'] == 'WALKING' %>
                     <%= step['distance'] %> - <%= step['general_instruction'].gsub!('Walk', 'Wheel') %>
-                    <a href="#" id="show-detail" class="show-detail hide-detail">Hide details</a>
+                    <!-- <a href="#" id="show-detail" class="show-detail hide-detail">Hide details</a> -->
                   <% elsif step['travel_mode'] == 'DRIVING' %>
                     <%= step['distance'] %> - <%= step['instruction'] %>
                   <% elsif step['travel_mode'] == 'TRANSIT' %>
