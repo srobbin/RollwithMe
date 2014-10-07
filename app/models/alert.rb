@@ -21,14 +21,16 @@ class Alert
   end
 end
 
-  # Alert scrape test
+#   ALERT SCRAPE TEST
 
-  # url = "http://www.transitchicago.com/api/1.0/alerts.aspx"
-  # data = Nokogiri::HTML(open(url))
-   # data.xpath("//alert").each do |alert|
-    # %w[shortdescription].each do |description|
-    # if alert.text.include?('elevator')
-     # puts alert.at(description).text.strip
-    # else
-    # alert.delete(alert)
-  # end
+#   url = "http://www.transitchicago.com/api/1.0/alerts.aspx"
+#   data = Nokogiri::HTML(open(url))
+#    data.xpath("//alert").each do |alert|
+#     %w[shortdescription].each do |description|
+#     if alert.text.include?('elevator')
+#      puts alert.at(description).text.strip
+#     else
+#     alert.delete(alert)
+#     end
+#   end
+# end

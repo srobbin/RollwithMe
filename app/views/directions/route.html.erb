@@ -1,22 +1,22 @@
 <html>
 <div class='container'
   <div class='logo'>
-    <h1 class='blue'>Accessible routes</h1>
-    <span class="alert_header">Please be aware of the following accessibility alerts:</span>
-    <%= render 'alerts' %>
     <h2 class='route-desc col-lg-8 col-md-8 col-md-offset-2 col-sm-12'>
       <span class="bold">From:</span> <%= @direction.start.split(' ').map {|w| w.capitalize }.join(' ') %> <br />
       <br />
       <span class="bold">To:</span> <%= @direction.destination.split(' ').map {|w| w.capitalize }.join(' ') %>
     </h2>
-
+    <h1 class='blue'>Accessible routes</h1>
+    <div class="alerts-box">
+      <%= render 'alerts' %>
+    </div>
+    <a href="" class="alerts-toggle" data-text-swap="Show alerts" data-text-original="Hide alerts">Hide alerts</a>
   </div>
- <!--  -->
-  <%# if @routes.count == 1 %>
+  <% if @routes.count == 1 %>
     <% @style = 'none' %>
-  <%# else %>
-    <%# @style = 'go-away' %>
-  <%# end %>
+  <% else %>
+    <% @style = 'go-away' %>
+  <% end %>
   <% routes_option_counter = 1 %>
 
   <% if @routes.count == 0 %>
@@ -24,96 +24,88 @@
    <% end %>
   <% @routes.each do |route| %>
     <div class='row'>
-      <h2 class='col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1'>
-        <div class='route-duration pull-right' style='font-size: 18px;'><%= route['duration'] %></div>
-        <i class='fa fa-wheelchair blue'></i>
-        <span class="route-name">Route <%= routes_option_counter %></span>
-      </h2>
+      <div class="<%= @style %>">
+        <h2 class='col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1'>
+          <div class='route-duration pull-right' style='font-size: 18px;'><%= route['duration'] %></div>
+            <i class='fa fa-wheelchair blue'></i>
+              <span class="route-name">Route <%= routes_option_counter %></span>
+         </h2>
+       </div>
 
-      <div class='article col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1'>
-<!--         <ul>
-          <li class='toggle <%= @style %> route-directions click'><span class='blue'>Directions</span></li> -->
-          <ul class='directions'>
-            <% route['route'].each do |step| %>
-              <% if step == route['route'].first %>
-                <li class='route-first'>
-                  <% if step['travel_mode'] == 'WALKING' %>
-                    <%= step['distance'] %> - <%= step['general_instruction'].gsub!('Walk', 'Wheel') %>
-                    <!-- <a href= "#" id="show-detail"class="show-detail hide-detail">Hide details</a> -->
-                    <br />
-                    <%= step_directions(step) %>
-
-                  <% elsif step['travel_mode'] == 'DRIVING' %>
-                    <%= step['distance'] %> - <%= step['instruction'] %>
-                  <% elsif step['travel_mode'] == 'TRANSIT' %>
-                    <% if step['vehicle_type'] == 'BUS' %>
-                      <%= step['distance'] %> - Take the <span style='display: inline-block; color: #fff; background-color: #000080 !important; padding: 0 8px; border-radius: 5px;'><%= step['departure_time'] %> #<%= step['vehicle_short_name'] %> Bus</span> to <%= step['arrival_stop_name'] %>
-                    <% elsif step['vehicle_type'] == 'SUBWAY' %>
-                      <%= step['distance'] %> - Take the <span style='display: inline-block; color: #fff; background-color: <%= step['train_line_color'] %>; padding: 0 8px; border-radius: 5px;'><%= step['departure_time'] %> <%= step['train_line'] %></span> train to <%= step['arrival_stop_name'] %>
-                    <% elsif step['vehicle_type'] == 'HEAVY_RAIL' %>
-                      <%= step['distance'] %> - Take the <span style='display: inline-block; color: #fff; background-color: #666; padding: 0 8px; border-radius: 5px;'><%= step['departure_time'] %> <%= step['train_line'] %></span> Metra to <%= step['arrival_stop_name'] %>
-                    <% end %>
-                  <% end %>
-                </li>
-              <% elsif step == route['route'].last %>
-                <li class='route-last'>
-                  <% if step['travel_mode'] == 'WALKING' %>
-                    <%= step['distance'] %> - <%= step['general_instruction'].gsub!('Walk', 'Wheel') %>
-                    <!-- <a href="#" id="destroy-detail" class="show-detail hide-detail">Hide details</a> -->
-                    <br>
-                      <%= step_directions(step) %>
-
-                  <% elsif step['travel_mode'] == 'DRIVING' %>
-                    <%= step['distance'] %> - <%= step['instruction'] %>
-                  <% elsif step['travel_mode'] == 'TRANSIT' %>
-                    <% if step['vehicle_type'] == 'BUS' %>
-                      <%= step['distance'] %> - Take the <span style='display: inline-block; color: #fff; background-color: #000080 !important; padding: 0 8px; border-radius: 5px;'><%= step['departure_time'] %> #<%= step['vehicle_short_name'] %> Bus</span> to <%= step['arrival_stop_name'] %>
-                    <% elsif step['vehicle_type'] == 'SUBWAY' %>
-                      <%= step['distance'] %> - Take the <span style='display: inline-block; color: #fff; background-color: <%= step['train_line_color'] %>; padding: 0 8px; border-radius: 5px;'><%= step['departure_time'] %> <%= step['train_line'] %></span> train to <%= step['arrival_stop_name'] %>
-                    <% elsif step['vehicle_type'] == 'HEAVY_RAIL' %>
-                      <%= step['distance'] %> - Take the <span style='display: inline-block; color: #fff; background-color: #666; padding: 0 8px; border-radius: 5px;'><%= step['departure_time'] %> <%= step['train_line'] %></span> Metra to <%= step['arrival_stop_name'] %>
-                    <% end %>
-                  <% end %>
-                </li>
-              <% else %>
-                <li>
-                  <% if step['travel_mode'] == 'WALKING' %>
-                    <%= step['distance'] %> - <%= step['general_instruction'].gsub!('Walk', 'Wheel') %>
-                    <!-- <a href="#" id="show-detail" class="show-detail hide-detail">Hide details</a> -->
-                  <% elsif step['travel_mode'] == 'DRIVING' %>
-                    <%= step['distance'] %> - <%= step['instruction'] %>
-                  <% elsif step['travel_mode'] == 'TRANSIT' %>
-                    <% if step['vehicle_type'] == 'BUS' %>
-                      <%= step['distance'] %> - Take the <span style='display: inline-block; color: #fff; background-color: #000080 !important; padding: 0 8px; border-radius: 5px;'><%= step['departure_time'] %> #<%= step['vehicle_short_name'] %> Bus</span> to <%= step['arrival_stop_name'] %>
-                    <% elsif step['vehicle_type'] == 'SUBWAY' %>
-                      <%= step['distance'] %> - Take the <span style='display: inline-block; color: #fff; background-color: <%= step['train_line_color'] %>; padding: 0 8px; border-radius: 5px;'><%= step['departure_time'] %> <%= step['train_line'] %></span> train to <%= step['arrival_stop_name'] %>
-                    <% elsif step['vehicle_type'] == 'HEAVY_RAIL' %>
-                      <%= step['distance'] %> - Take the <span style='display: inline-block; color: #fff; background-color: #666; padding: 0 8px; border-radius: 5px;'><%= step['departure_time'] %> <%= step['train_line'] %></span> Metra to <%= step['arrival_stop_name'] %>
-                    <% end %>
-                  <% end %>
-                </li>
-              <% end %>
-            <% end %>
-          </ul>
-        <!-- </ul> -->
-      </div>
-    </div>
+        <div class='article col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1'>
+          <ul>
+            <a class="col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 toggle click view-route" data-text-swap="Hide route" data-text-original="View route">View route</a>
+            <ul class='directions'>
+                        <% route['route'].each do |step| %>
+                          <% if step == route['route'].first %>
+                            <li class='route-first'>
+                              <% if step['travel_mode'] == 'WALKING' %>
+                                <%= step['distance'] %> - <%= step['general_instruction'].gsub!('Walk', 'Wheel') %>
+                                <br />
+                                  <div class="detail-link">
+                                    <%= step_directions(step) %>
+                                    <a href="">Details</a>
+                                  </div>
+                              <% elsif step['travel_mode'] == 'DRIVING' %>
+                                <%= step['distance'] %> - <%= step['instruction'] %>
+                              <% elsif step['travel_mode'] == 'TRANSIT' %>
+                                <% if step['vehicle_type'] == 'BUS' %>
+                                  <%= step['distance'] %> - Take the <span style='display: inline-block; color: #fff; background-color: #000080 !important; padding: 0 8px; border-radius: 5px;'><%= step['departure_time'] %> #<%= step['vehicle_short_name'] %> Bus</span> to <span class="bold"><%= step['arrival_stop_name'] %></span>
+                                <% elsif step['vehicle_type'] == 'SUBWAY' %>
+                                  <%= step['distance'] %> - Take the <span style='display: inline-block; color: #fff; background-color: <%= step['train_line_color'] %>; padding: 0 8px; border-radius: 5px;'><%= step['departure_time'] %> <%= step['train_line'] %></span> train to <span class="bold"><%= step['arrival_stop_name'] %></span>
+                                <% elsif step['vehicle_type'] == 'HEAVY_RAIL' %>
+                                  <%= step['distance'] %> - Take the <span style='display: inline-block; color: #fff; background-color: #666; padding: 0 8px; border-radius: 5px;'><%= step['departure_time'] %> <%= step['train_line'] %></span> Metra to <span class="bold"><%= step['arrival_stop_name'] %></span>
+                                <% end %>
+                              <% end %>
+                            </li>
+                          <% elsif step == route['route'].last %>
+                            <li class='route-last'>
+                              <% if step['travel_mode'] == 'WALKING' %>
+                                <%= step['distance'] %> - <%= step['general_instruction'].gsub!('Walk', 'Wheel') %>
+                                <br>
+                                    <div class="detail-link">
+                                      <%= step_directions(step) %>
+                                      <a href="">Details</a>
+                                    </div>
+                              <% elsif step['travel_mode'] == 'DRIVING' %>
+                                <%= step['distance'] %> - <%= step['instruction'] %>
+                              <% elsif step['travel_mode'] == 'TRANSIT' %>
+                                <% if step['vehicle_type'] == 'BUS' %>
+                                  <%= step['distance'] %> - Take the <span style='display: inline-block; color: #fff; background-color: #000080 !important; padding: 0 8px; border-radius: 5px;'><%= step['departure_time'] %> #<%= step['vehicle_short_name'] %> Bus</span> to <span class="bold"><%= step['arrival_stop_name'] %></span>
+                                <% elsif step['vehicle_type'] == 'SUBWAY' %>
+                                  <%= step['distance'] %> - Take the <span style='display: inline-block; color: #fff; background-color: <%= step['train_line_color'] %>; padding: 0 8px; border-radius: 5px;'><%= step['departure_time'] %> <%= step['train_line'] %></span> train to <span class="bold"><%= step['arrival_stop_name'] %></span>
+                                <% elsif step['vehicle_type'] == 'HEAVY_RAIL' %>
+                                  <%= step['distance'] %> - Take the <span style='display: inline-block; color: #fff; background-color: #666; padding: 0 8px; border-radius: 5px;'><%= step['departure_time'] %> <%= step['train_line'] %></span> Metra to<span class="bold"> <%= step['arrival_stop_name'] %></span>
+                                <% end %>
+                              <% end %>
+                            </li>
+                          <% else %>
+                            <li>
+                              <% if step['travel_mode'] == 'WALKING' %>
+                                <%= step['distance'] %> - <%= step['general_instruction'].gsub!('Walk', 'Wheel') %>
+                              <% elsif step['travel_mode'] == 'DRIVING' %>
+                                <%= step['distance'] %> - <%= step['instruction'] %>
+                              <% elsif step['travel_mode'] == 'TRANSIT' %>
+                                <% if step['vehicle_type'] == 'BUS' %>
+                                  <%= step['distance'] %> - Take the <span style='display: inline-block; color: #fff; background-color: #000080 !important; padding: 0 8px; border-radius: 5px;'><%= step['departure_time'] %> #<%= step['vehicle_short_name'] %> Bus</span> to <span class="bold"><%= step['arrival_stop_name'] %></span>
+                                <% elsif step['vehicle_type'] == 'SUBWAY' %>
+                                  <%= step['distance'] %> - Take the <span style='display: inline-block; color: #fff; background-color: <%= step['train_line_color'] %>; padding: 0 8px; border-radius: 5px;'><%= step['departure_time'] %> <%= step['train_line'] %></span> train to <span class="bold"><%= step['arrival_stop_name'] %></span>
+                                <% elsif step['vehicle_type'] == 'HEAVY_RAIL' %>
+                                  <%= step['distance'] %> - Take the <span style='display: inline-block; color: #fff; background-color: #666; padding: 0 8px; border-radius: 5px;'><%= step['departure_time'] %> <%= step['train_line'] %></span> Metra to <span class="bold"><%= step['arrival_stop_name'] %></span>
+                                <% end %>
+                              <% end %>
+                            </li>
+                          <% end %>
+                        <% end %>
+                      </ul>
+                    </div>
+                  </ul>
+                </div>
+              </div>
     <% routes_option_counter += 1 %>
   <% end %>
   <hr>
     <div class="feedback">How was your experience? We'd love to hear your feedback! <div>Send us an <%= mail_to "mouyoun@yahoo.com", "email" %>!</div></div>
   </div>
-<script>
-
-
-//   $(document).ready(function() {
-//     var directions = $('.go-away').siblings('ul')
-//     directions.hide();
-//     $('.toggle').on('click', function () {
-//       var closestDirection = $(this).siblings ('ul')
-//       closestDirection.slideToggle('slow');
-//     });
-//   });
-</script>
-<script type="text/javascript" src="routes.js"></script>
+  <script type="text/javascript" src="routes.js"></script>
 </html>

@@ -1,3 +1,4 @@
+
 class DirectionsController < ApplicationController
   def landing_page
   end
@@ -7,6 +8,7 @@ class DirectionsController < ApplicationController
     @direction.start = params[:start]
     @direction.destination = params[:destination]
     @departure_time = params[:departure]
+
     @alert = Alert.new
 
     if @direction.start.present? && @direction.destination.present?

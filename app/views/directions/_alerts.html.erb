@@ -1,8 +1,10 @@
 <% if @elevator_alerts %>
 <div class="row">
-  <div class='col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1'>
-    <% @elevator_alerts.each do |notice| %>
-      <p class="alerts"><%= notice %></p>
+  <div class='col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 well'>
+    <span class="alert_header">Please be aware of the following accessibility alerts:</span>
+    <% @elevator_alerts.each do |alert| %>
+      <p class="dark"><%= alert %></p>
+      <hr class= "black-hr">
     <% end %>
   </div>
 </div>

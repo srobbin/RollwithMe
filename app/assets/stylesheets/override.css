@@ -47,9 +47,12 @@ p.alerts {
 
 .alert_header {
   color: red;
-  font-weight: 400
+  font-weight: 400;
 }
 
+.dark {
+border-bottom: solid px black
+}
 div.route-duration, div.route-distance {
   position: relative;
   top: 12px;
@@ -122,13 +125,13 @@ li.route-last:before {
 
 body {
   font-family: 'Open Sans', sans-serif;
-  background-color: #fff;
+  background-color: #f4f4f4;
   /*background-image: url('cartographer.png');*/
   background-repeat: repeat;
   color: #333;
   font-weight: 300;
   text-align: center;
-  border-top: 8px solid #000080;
+  /*border-top: 8px solid #000080;*/
 }
 
 #logo {
@@ -441,7 +444,7 @@ label {
     padding-bottom: 0;
   }
 
-  .hidden-mobile {
+  .hidden {
     display: none;
   }
 
@@ -460,12 +463,48 @@ label {
   font-size: 20px;
 }
 
-.close-well {
-  /*display: none;*/
+.details {
+  margin-top: 20px;
 }
 
 .show-detail {
   font-size: 12px;
-  float: right;
-  margin-left: 10px;
+  margin-left: 7px;
+}
+
+.detail-link {
+  font-size: 12px;
+  font-family: "Helvetica";
+  margin-left: 7px;
+}
+
+.view-route {
+
+  position: absolute;
+  top: -37px;
+  left: -70px;
+  padding-left: 20px;
+  font-size: 12px;
+}
+
+.black-hr {
+   border: 0;
+    height: 1px;
+    background: #333;
+    background-image: -webkit-linear-gradient(left, #ccc, #333, #ccc);
+    background-image:    -moz-linear-gradient(left, #ccc, #333, #ccc);
+    background-image:     -ms-linear-gradient(left, #ccc, #333, #ccc);
+    background-image:      -o-linear-gradient(left, #ccc, #333, #ccc);
+}
+
+.subtle-hr {
+   border: 0;
+    height: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.detail-link {
+  margin-top: -22px;
+  margin-left: 650px;
 }
