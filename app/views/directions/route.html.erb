@@ -34,18 +34,15 @@
 
         <div class='article col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1'>
           <ul>
-            <a class="col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 toggle click view-route" data-text-swap="Hide route" data-text-original="View route">View route</a>
+            <a href="" class="col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 toggle click view-route" data-text-swap="Hide route" data-text-original="View route">View route</a>
             <ul class='directions'>
                         <% route['route'].each do |step| %>
                           <% if step == route['route'].first %>
                             <li class='route-first'>
                               <% if step['travel_mode'] == 'WALKING' %>
-                                <%= step['distance'] %> - <%= step['general_instruction'].gsub!('Walk', 'Wheel') %>
+                                <%= step['distance'] %> - <a href="" class="detail-link"><%= step['general_instruction'].gsub!('Walk', 'Wheel') %></a>
                                 <br />
-                                  <div class="detail-link">
                                     <%= step_directions(step) %>
-                                    <a href="">Details</a>
-                                  </div>
                               <% elsif step['travel_mode'] == 'DRIVING' %>
                                 <%= step['distance'] %> - <%= step['instruction'] %>
                               <% elsif step['travel_mode'] == 'TRANSIT' %>
@@ -61,12 +58,9 @@
                           <% elsif step == route['route'].last %>
                             <li class='route-last'>
                               <% if step['travel_mode'] == 'WALKING' %>
-                                <%= step['distance'] %> - <%= step['general_instruction'].gsub!('Walk', 'Wheel') %>
+                                <%= step['distance'] %> - <a href= "" class="detail-link"><%= step['general_instruction'].gsub!('Walk', 'Wheel') %></a>
                                 <br>
-                                    <div class="detail-link">
-                                      <%= step_directions(step) %>
-                                      <a href="">Details</a>
-                                    </div>
+                                  <%= step_directions(step) %>
                               <% elsif step['travel_mode'] == 'DRIVING' %>
                                 <%= step['distance'] %> - <%= step['instruction'] %>
                               <% elsif step['travel_mode'] == 'TRANSIT' %>

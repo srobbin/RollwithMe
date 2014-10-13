@@ -303,7 +303,7 @@ label {
   font-size: 22px;
 }
 
-.toggle.click {
+.toggle .click {
   font-weight: 400;
   cursor: pointer;
 }
@@ -505,6 +505,5 @@ label {
 }
 
 .detail-link {
-  margin-top: -22px;
-  margin-left: 650px;
+  font-size: 18px;
 }

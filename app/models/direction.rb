@@ -70,7 +70,6 @@ def directions?(departure)
            step_info['general_instruction'] = step['html_instructions']
            step_info['detail'] =  step['steps'].each do |direct|
             direct['html_instructions']
-
            end
            route_info_hash['route'] << step_info
 
