@@ -151,7 +151,7 @@ def directions?(departure)
 
   # Array of all accessible CTA Stations
     def accessible?(departure_time)
-      accessible_stations_array = [
+      accessible_stations = [
 
         # CTA BROWN LINE
         "Kimball", "Kedzie-Brown", "Francisco", "Rockwell", "Western-Brown", "Damen-Brown",
@@ -191,23 +191,19 @@ def directions?(departure)
         "69th", "79th", "87th", "95th/Dan Ryan",
 
         # CTA YELLOW LINE
-        "Howard", "Oakton-Skokie", "Dempster-Skokie"
+        "Howard", "Oakton-Skokie", "Dempster-Skokie",
       ]
 
-
-  # Logic to filter out any unaccessible routes
-    routes = self.directions?(departure_time)
-
-
-      routes.each do |route|
-        subway_routes = route['route'].select {|r| r ["vehicle_type"] == "SUBWAY"}
-          results_stations_array = subway_routes.each.map  do |subway|
-           subway['arrival_stop_name']
-          unless(accessible_stations_array.include?(results_stations_array))
-            routes.delete(route)
-          end
+    # Logic to filter out any unaccessible routes
+    self.directions?(departure_time).each do |direction|
+      direction['route'].each do |route|
+        case route['vehicle_type']
+        when 'SUBWAY'
+          can_depart = accessible_stations.include?(route['departure_stop_name'])
+          can_arrive = accessible_stations.include?(route['arrival_stop_name'])
+          direction['route'].delete(route) unless can_depart and can_arrive
         end
       end
-    return routes
+    end
   end
 end
