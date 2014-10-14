@@ -195,13 +195,17 @@ def directions?(departure)
       ]
 
     # Logic to filter out any unaccessible routes
-    self.directions?(departure_time).each do |direction|
+    directions = self.directions?(departure_time)
+    directions.each do |direction|
       direction['route'].each do |route|
         case route['vehicle_type']
         when 'SUBWAY'
           can_depart = accessible_stations.include?(route['departure_stop_name'])
           can_arrive = accessible_stations.include?(route['arrival_stop_name'])
-          direction['route'].delete(route) unless can_depart and can_arrive
+          unless can_depart and can_arrive
+            directions.delete(direction)
+            break
+          end
         end
       end
     end
