@@ -1,4 +1,6 @@
-$(document).ready(function() {
+$(document).on('ready page:load', function() {
+  // DIRECTIONS TOGGLE
+    var directions = $('ul.directions');
 
   // ALERTS TOGGLE
     var alertsListLink = $('a.alerts-toggle');
